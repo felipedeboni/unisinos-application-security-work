@@ -1,0 +1,15 @@
+{
+	"preset": "jquery",
+	"requireSpacesInsideParentheses": {
+		"all": true,
+		"except": [ "{", "}", "[", "]", "function" ]
+	},
+	"disallowSpacesInCallExpression": true,
+	"requireSpaceAfterLineComment": {
+		"allExcept": ["#", "="]
+	},
+	"disallowMultipleLineBreaks": null,
+	"validateQuoteMarks": "'",
+	"requireCapitalizedComments": false,
+	"validateIndentation": "\t"
+}
