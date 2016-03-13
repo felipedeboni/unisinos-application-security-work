@@ -1,0 +1,21 @@
+<div class="container-fluid">
+	<div class="col-xs-12">
+		<form id="<%= type %>-user-form" action="<%= action %>" method="<%= method %>" class="form" autocomplete="off">
+			<div class="form-group">
+				<input id="name" name="name" type="text" placeholder="Name" class="form-control" value="<%- form.name %>" />
+			</div>
+			<div class="form-group">
+				<input id="email" name="email" type="email" placeholder="Email" class="form-control" value="<%- form.email %>" />
+			</div>
+			<div class="form-group">
+				<input id="phone" name="phone" type="tel" placeholder="phone" class="form-control" value="<%- form.phone %>" />
+			</div>
+			<div class="form-group">
+				<input id="password" name="password" type="password" placeholder="password" class="form-control" value="" />
+			</div>
+			<div class="form-group mb-none text-right">
+				<button class="btn btn-primary" type="submit">Submit</button>
+			</div>
+		</form>
+	</div>
+</div>

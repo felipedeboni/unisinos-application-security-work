@@ -1,0 +1,10 @@
+<%- include('../../shared/html-head') %>
+	<div class="container">
+		<div class="page-header">
+			<h1><%= title %></h1>
+		</div>
+	</div>
+
+	<%- include( '_form', { type: 'edit', action: 'users/' + user.id + '/edit', method: 'POST', form: user } ) %>
+
+<%- include('../../shared/html-footer') %>

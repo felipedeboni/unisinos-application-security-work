@@ -1,13 +1,19 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<title>Application Security | UNISINOS</title>
-
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-	</head>
-	<body>
-		<h1><%- title %></h1>
-	</body>
-</html>
+<%- include('shared/html-head') %>
+	<% if ( movies.length > 0 ) { %>
+	<div class="container">
+		<row class="row">
+			<% for( var i in movies ) { %>
+				<% var movie = movies[ i ]; %>
+				<a href="/movies/<%= movie.id %>" class="col-sm-2 col-md-3">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<img src="/images/movies/<%= movie.id %>.jpeg" alt="<%= movie.name %>" class="responsive"/>
+						</div>
+						<p class="text-center text-muted"><%= movie.name %></p>
+					</div>
+				</a>
+			<% } %>
+		</row>
+	</div>
+	<% } %>
+<%- include('shared/html-footer') %>

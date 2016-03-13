@@ -1,0 +1,43 @@
+<%- include('../../shared/html-head') %>
+	<div class="container">
+		<div class="page-header">
+			<h1><%= title %></h1>
+		</div>
+
+		<div class="text-right mb-sm">
+			<a href="/admin/movies/new" class="btn btn-primary">Add Movie</a>
+		</div>
+
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Release Date</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% if ( !!movies && movies.length > 0 ) { %>
+					<% for( var i in movies ) { %>
+						<tr>
+							<td><%- movies[ i ].name %></td>
+							<td><%- moment( movies[ i ].release_date ).format( 'DD/MM/YYYY' ) %></td>
+							<td>
+								<a href="/admin/movies/<%= movies[ i ].id %>/edit">Edit</a>
+								<% if ( true ) { %>
+									<a href="/admin/movies/<%= movies[ i ].id %>/remove">Remove</a>
+								<% } %>
+							</td>
+						</tr>
+					<% } %>
+				<% } else { %>
+				<tr>
+					<td>
+						<p class="pb-xlg pt-xlg text-muted text-center mb-none">No movies found</p>
+					</td>
+				</tr>
+				<% } %>
+			</tbody>
+		</table>
+	</div>
+<%- include('../../shared/html-footer') %>

@@ -1,0 +1,41 @@
+<%- include('../../shared/html-head') %>
+	<div class="container">
+		<div class="page-header">
+			<h1><%= title %></h1>
+		</div>
+
+		<div class="text-right mb-sm">
+			<a href="/admin/genres/new" class="btn btn-primary">Add Genre</a>
+		</div>
+
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Name</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% if ( !!genres && genres.length > 0 ) { %>
+					<% for( var i in genres ) { %>
+						<tr>
+							<td><%- genres[ i ].id %></td>
+							<td><%- genres[ i ].name %></td>
+							<td>
+								<a href="/admin/genres/<%= genres[ i ].id %>/edit">Edit</a>
+								<a href="/admin/genres/<%= genres[ i ].id %>/remove">Remove</a>
+							</td>
+						</tr>
+					<% } %>
+				<% } else { %>
+				<tr>
+					<td>
+						<p class="pb-xlg pt-xlg text-muted text-center mb-none">No genres found</p>
+					</td>
+				</tr>
+				<% } %>
+			</tbody>
+		</table>
+	</div>
+<%- include('../../shared/html-footer') %>

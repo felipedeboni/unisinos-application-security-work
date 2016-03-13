@@ -72,6 +72,7 @@ function onError( error ) {
 			break;
 
 		default:
+			console.log( bind + ' ' + error );
 			throw error;
 
 	}

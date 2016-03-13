@@ -1,0 +1,52 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-3">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<% if ( !!form.id ) { %>
+						<img src="/images/movies/<%= form.id %>.jpeg" alt="<%= form.name %>" />
+					<% } %>
+				</div>
+			</div>
+			<div class="form-group">
+				<input type="file" name="cover" />
+			</div>
+		</div>
+		<div class="col-md-6 col-lg-offset-4 col-lg-4">
+			<form id="<%= type %>-movies-form" action="/admin/<%= action %>" method="<%= method %>" class="form" enctype="multipart/form-data">
+
+				<div class="form-group">
+					<input id="name" name="name" type="text" placeholder="Name" class="form-control" value="<%- form.name %>" />
+				</div>
+				<div class="form-group">
+					<textarea id="synopsys" name="synopsis" class="form-control" placeholder="Synopsis" rows="10"><%- form.synopsis %></textarea>
+				</div>
+				<div class="form-group">
+					<input id="release_date" name="release_date" type="date" placeholder="Release Date" class="form-control" value="<%- form.release_date %>" />
+				</div>
+
+				<div class="form-group">
+					<label>Genres</label>
+
+					<div class="row">
+						<% var movieGenres = form.genre_ids.split( ',' ); %>
+						<% for( var i in genres ) { %>
+							<% var genre = genres[ i ]; %>
+							<div class="checkbox col-md-6 mt-none">
+								<label>
+									<input name="genre_ids" type="checkbox" value="<%= genre.id %>" <%= movieGenres.indexOf( genre.id.toString() ) > - 1 ? "checked=\"checked\"" : "" %>  />
+									<%= genre.name %>
+								</label>
+							</div>
+						<% } %>
+					</div>
+				</div>
+
+				<div class="form-group mb-none text-right">
+					<a href="/admin/users/" class="btn btn-default">Back to List</a>
+					<button class="btn btn-primary" type="submit">Submit</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

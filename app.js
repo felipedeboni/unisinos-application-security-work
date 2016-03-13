@@ -9,17 +9,26 @@
  * bem diferente de um apache ou iis
  * que já resolve tudo pra ti
  */
-var express      = require( 'express' );
-var path         = require( 'path' );
-var favicon      = require( 'serve-favicon' );
-var logger       = require( 'morgan' );
-var cookieParser = require( 'cookie-parser' );
-var bodyParser   = require( 'body-parser' );
+var config           = require( './package.json' );
+var express          = require( 'express' );
+var path             = require( 'path' );
+var logger           = require( 'morgan' );
+var cookieParser     = require( 'cookie-parser' );
+var bodyParser       = require( 'body-parser' );
+var session          = require( 'express-session' );
+var cookieSession    = require( 'cookie-session' );
+var moment           = require( 'moment' );
 
-var routes       = require( './routes/index' );
-var users        = require( './routes/users' );
-var movies       = require( './routes/movies' );
-var genres       = require( './routes/genres' );
+var auth             = require( './lib/auth' );
+
+var site             = require( './routes/index' );
+var users            = require( './routes/users' );
+var movies           = require( './routes/movies' );
+var admin            = require( './routes/admin/index' );
+var adminUsers       = require( './routes/admin/users' );
+var adminMovies      = require( './routes/admin/movies' );
+var adminGenres      = require( './routes/admin/genres' );
+
 
 var app = express();
 
@@ -32,6 +41,12 @@ var app = express();
  */
 app.set( 'views', path.join( __dirname, 'views' ) );
 app.set( 'view engine', 'ejs' );
+
+// sessao
+app.use(cookieSession({
+	name: 'session',
+	keys: [ '!#$!#', '()!**)!@' ]
+}));
 
 // mostra mensagens de log
 app.use( logger( 'dev' ) );
@@ -56,6 +71,9 @@ app.use( express.static( path.join( __dirname, 'public' ) ) );
 app.use(function( req, res, next ) {
 	if ( res !== null ) {
 		res.vm = {};
+		res.vm.moment = moment;
+		res.vm.currentUser = false;
+
 		res.rendr = function( path, callback ) {
 			res.render( path, res.vm, callback );
 		};
@@ -63,12 +81,19 @@ app.use(function( req, res, next ) {
 	next();
 });
 
+// restringe e ajuda com usuario atual
+app.use( auth.setCurrentUser );
+app.use( auth.restrictAdmin );
+
 // as urls que a aplicacao/site vai ter
 // e o que deve ser feito nessas urls
-app.use( '/', routes );
-app.use( '/usuarios', users );
-app.use( '/filmes', movies );
-app.use( '/generos', genres );
+app.use( '/', site );
+app.use( '/', users );
+app.use( '/movies', movies );
+app.use( '/admin/', admin );
+app.use( '/admin/users', adminUsers );
+app.use( '/admin/movies', adminMovies );
+app.use( '/admin/genres', adminGenres );
 
 // caso a url nao exista, a gente trata o 404
 app.use(function( req, res, next ) {
@@ -86,6 +111,10 @@ app.use(function( err, req, res, next ) {
 		message: err.message,
 		error: err
 	});
+});
+
+process.on('SIGTERM', function() {
+	db.close();
 });
 
 module.exports = app;
