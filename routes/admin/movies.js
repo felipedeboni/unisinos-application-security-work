@@ -103,7 +103,7 @@ function getFormData( req, blacklist ) {
 	var data = {};
 	blacklist = blacklist || [];
 
-	var fields = [ 'name', 'synopsis', 'release_date', 'genre_ids' ];
+	var fields = [ 'name', 'synopsis', 'release_date', 'genre_ids', 'rate' ];
 
 	for ( var i in fields ) {
 		var field = fields[ i ];

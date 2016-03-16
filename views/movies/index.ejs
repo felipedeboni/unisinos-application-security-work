@@ -13,8 +13,12 @@
 						<img src="/images/movies/<%= movie.id %>.jpeg" alt="<%= movie.name %>" />
 					</div>
 				</div>
+				<div class="text-center">
+					<div class="text-warning small" data-raty data-read-only="true" data-score="<%- movie.rate %>"></div>
+				</div>
 			</div>
 			<div class="col-md-6 col-lg-offset-4 col-lg-4">
+
 				<p class="text-muted"><%- moment( movie.release_date ).format( 'DD/MM/YYYY' ) %></p>
 				<label class="small">Synopsis</label>
 				<p><%- movie.synopsis %></p>

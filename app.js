@@ -15,14 +15,15 @@ var path             = require( 'path' );
 var logger           = require( 'morgan' );
 var cookieParser     = require( 'cookie-parser' );
 var bodyParser       = require( 'body-parser' );
-var session          = require( 'express-session' );
 var cookieSession    = require( 'cookie-session' );
 var moment           = require( 'moment' );
 
 var auth             = require( './lib/auth' );
+var flash            = require( './lib/flash' );
 
 var site             = require( './routes/index' );
 var users            = require( './routes/users' );
+var search           = require( './routes/search' );
 var movies           = require( './routes/movies' );
 var admin            = require( './routes/admin/index' );
 var adminUsers       = require( './routes/admin/users' );
@@ -75,6 +76,9 @@ app.use(function( req, res, next ) {
 		res.vm.currentUser = false;
 
 		res.rendr = function( path, callback ) {
+			res.vm.flash = flash;
+			res.vm.session = req.session;
+			res.vm.query = req.query;
 			res.render( path, res.vm, callback );
 		};
 	}
@@ -89,6 +93,7 @@ app.use( auth.restrictAdmin );
 // e o que deve ser feito nessas urls
 app.use( '/', site );
 app.use( '/', users );
+app.use( '/search', search );
 app.use( '/movies', movies );
 app.use( '/admin/', admin );
 app.use( '/admin/users', adminUsers );

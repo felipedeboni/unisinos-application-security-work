@@ -2,6 +2,7 @@
 
 var express = require( 'express' );
 var auth = require( '../lib/auth' );
+var flash = require( '../lib/flash' );
 var router = express.Router();
 var User = require( '../models/user' );
 
@@ -40,13 +41,27 @@ router.post( '/profile', function( req, res, next ) {
 	});
 })
 
+// GET /signin
+router.get( '/signin', function( req, res, next ) {
+	res.rendr( 'users/signin' );
+});
+
 // POST /signin
 router.post( '/signin', function( req, res, next ) {
 	var email = req.body.email;
 	var password = req.body.password;
 
 	auth.login( req, email, password, function( isLogged ) {
-		return res.redirect( '/' );
+		if ( !isLogged ) {
+			flash.error( req, 'Invalid email or password.' );
+			res.vm.user = {
+				email: email
+			};
+			res.rendr( 'users/signin' );
+		} else {
+			return res.redirect( '/' );
+		}
+
 	});
 });
 

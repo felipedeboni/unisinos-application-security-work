@@ -4,8 +4,6 @@ var express = require( 'express' );
 var fs = require( 'fs' );
 var path = require( 'path' );
 var router = express.Router();
-var multer = require( 'multer' );
-var upload = multer({ dest: 'uploads/' });
 
 var Movie = require( '../models/movie' );
 var Genre = require( '../models/genre' );

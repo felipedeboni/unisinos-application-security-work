@@ -1,3 +1,7 @@
+.navbar {
+	border-radius: 0;
+}
+
 .text-xs {
 	font-size: 1rem;
 }
@@ -441,6 +445,10 @@ html.dark .text-muted {
 .ib {
 	display: inline-block;
 	vertical-align: top;
+}
+
+.inline {
+	display: inline;
 }
 
 img {

@@ -1,0 +1,28 @@
+<%- include('../shared/html-head') %>
+
+	<div class="container">
+		<div class="page-header">
+			<h1>Searching by <i><%- query.term %></i></h1>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<% if ( !!movies && movies.length > 0 ) { %>
+				<% for( var i in movies ) { %>
+					<% var movie = movies[ i ]; %>
+					<a href="/movies/<%= movie.id %>" class="col-sm-2 col-md-3">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<img src="/images/movies/<%= movie.id %>.jpeg" alt="<%= movie.name %>" class="responsive"/>
+							</div>
+							<p class="text-center text-muted"><%= movie.name %></p>
+						</div>
+					</a>
+				<% } %>
+			<% } else { %>
+				<p class="mb-xlg mt-xlg pb-xlg pt-xlg text-lg text-muted text-center mb-none">We couldn’t find any items that matched your search term.</p>
+			<% } %>
+		</div>
+	</div>
+<%- include('../shared/html-footer') %>

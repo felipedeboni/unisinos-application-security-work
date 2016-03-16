@@ -5,6 +5,10 @@
 				<div class="panel-body">
 					<% if ( !!form.id ) { %>
 						<img src="/images/movies/<%= form.id %>.jpeg" alt="<%= form.name %>" />
+					<% } else { %>
+						<div class="text-center pt-xlg pb-xlg mt-xlg mb-xlg">
+							<i class="fa fa-file-image-o" style="font-size: 60px"></i>
+						</div>
 					<% } %>
 				</div>
 			</div>
@@ -18,18 +22,26 @@
 				<div class="form-group">
 					<input id="name" name="name" type="text" placeholder="Name" class="form-control" value="<%- form.name %>" />
 				</div>
+
 				<div class="form-group">
 					<textarea id="synopsys" name="synopsis" class="form-control" placeholder="Synopsis" rows="10"><%- form.synopsis %></textarea>
 				</div>
+
 				<div class="form-group">
 					<input id="release_date" name="release_date" type="date" placeholder="Release Date" class="form-control" value="<%- form.release_date %>" />
+				</div>
+
+				<div class="form-group">
+					<label>Rate</label>
+					<div class="text-warning" data-raty data-score="<%- form.rate || 3 %>" data-update="#rate"></div>
+					<input id="rate" name="rate" type="hidden" value="<%- form.rate || 3 %>" />
 				</div>
 
 				<div class="form-group">
 					<label>Genres</label>
 
 					<div class="row">
-						<% var movieGenres = form.genre_ids.split( ',' ); %>
+						<% var movieGenres = (form.genre_ids || '').split( ',' ); %>
 						<% for( var i in genres ) { %>
 							<% var genre = genres[ i ]; %>
 							<div class="checkbox col-md-6 mt-none">
@@ -43,7 +55,7 @@
 				</div>
 
 				<div class="form-group mb-none text-right">
-					<a href="/admin/users/" class="btn btn-default">Back to List</a>
+					<a href="/admin/movies/" class="btn btn-default">Back to List</a>
 					<button class="btn btn-primary" type="submit">Submit</button>
 				</div>
 			</form>

@@ -12,7 +12,7 @@ exports.findAll = function( options, next ) {
 	options = options || {};
 	var query = 'SELECT * FROM movies';
 
-	if ( options.WHERE ) {
+	if ( options.where ) {
 		query += ' WHERE ' + options.where;
 	}
 
@@ -66,6 +66,13 @@ exports.updateById = function( id, movie, next ) {
 			"synopsis = '" + movie.synopsis + "'"
 		);
 	}
+
+	if ( typeof movie.rate !== 'undefined' ) {
+		sets.push(
+			"rate = '" + movie.rate + "'"
+		);
+	}
+
 
 	if ( typeof movie.genre_ids !== 'undefined' ) {
 		sets.push(
