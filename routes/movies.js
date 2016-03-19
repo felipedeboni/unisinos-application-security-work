@@ -13,7 +13,7 @@ var Genre = require( '../models/genre' );
 router.get( '/:id', [validateMovieExistance, getGenres, function( req, res, next ) {
 	Movie.findById( req.params.id, function( err, movie ) {
 		if (err) {
-			return res.status( 500 ).send();
+			return res.redirect( '/404' );
 		}
 
 		res.vm.movie = movie;
@@ -38,7 +38,8 @@ function validateMovieExistance( req, res, next ) {
 		}
 
 		if ( !exists ) {
-			return res.status( 404 ).send();
+			//return res.redirect( '/404' );
+			// TODO check this
 		}
 
 		next();

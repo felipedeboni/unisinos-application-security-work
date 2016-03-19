@@ -6,6 +6,7 @@ var path = require( 'path' );
 var router = express.Router();
 var multer = require( 'multer' );
 var upload = multer({ dest: 'uploads/' });
+var flash = require( '../../lib/flash' );
 
 var Movie = require( '../../models/movie' );
 var Genre = require( '../../models/genre' );
@@ -45,8 +46,8 @@ router.post( '/new', upload.single('cover'), function( req, res, next ) {
 			);
 		}
 
-
-		res.redirect( '/admin/movies/' + this.lastID + '/edit' );
+		flash.success( req, 'Movie created.' );
+		res.redirect( '/admin/movies/' );
 	});
 });
 
@@ -54,7 +55,7 @@ router.post( '/new', upload.single('cover'), function( req, res, next ) {
 router.get( '/:id/edit', [validateMovieExistance, getGenres, function( req, res, next ) {
 	Movie.findById( req.params.id, function( err, movie ) {
 		if (err) {
-			return res.status( 500 ).send();
+			flash.error( req, 'Unexpected error has occured.' );
 		}
 
 		res.vm.title = 'Edit Movie';
@@ -70,10 +71,20 @@ router.post( '/:id/edit', [validateMovieExistance, getGenres, upload.single('cov
 
 	Movie.updateById( req.params.id, data, function( err ) {
 		if (err) {
-			return res.status( 500 ).send();
+			flash.error( req, 'Unexpected error has occured.' );
+			res.redirect( '/admin/movies/' + req.params.id + '/edit' );
+			return;
 		}
 
-		res.redirect( '/admin/movies/' + req.params.id + '/edit' );
+		if ( req.file ) {
+			fs.rename(
+				path.join( process.cwd(), 'uploads', req.file.filename ),
+				path.join( process.cwd(), 'public', 'images', 'movies', req.params.id + '.' + req.file.mimetype.split('/').reverse()[0] )
+			);
+		}
+
+		flash.success( req, 'Movie updated.' );
+		res.redirect( '/admin/movies' );
 	});
 }]);
 
@@ -83,7 +94,7 @@ router.get( '/:id/remove', [validateMovieExistance, function( req, res, next ) {
 
 	Movie.removeById( req.params.id, function( err ) {
 		if (err) {
-			return res.status( 500 ).send();
+			flash.error( req, 'Unexpected error has occured.' );
 		}
 
 		res.redirect( '/admin/movies' );
@@ -123,7 +134,7 @@ function validateMovieExistance( req, res, next ) {
 		}
 
 		if ( !exists ) {
-			return res.status( 404 ).send();
+			return res.redirect( '/404' );
 		}
 
 		next();

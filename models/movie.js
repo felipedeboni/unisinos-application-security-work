@@ -33,7 +33,7 @@ exports.findAll = function( options, next ) {
 
 exports.add = function( movie, next ) {
 	var query = 'INSERT INTO movies (name, synopsis, release_date, genre_ids, created_at, updated_at) ';
-	query += "VALUES ('" + movie.name + "','" + movie.synopsis + "','" + movie.release_date + "','" + movie.genre_ids + "', datetime('now'), datetime('now'))";
+	query += "VALUES ('" + movie.name + "','" + movie.synopsis + "','" + movie.release_date + "','" + movie.genre_ids + "', datetime('now', 'localtime'), datetime('now', 'localtime'))";
 
 	db.serialize(function() {
 		db.run( query, [], next );
@@ -87,7 +87,7 @@ exports.updateById = function( id, movie, next ) {
 	}
 
 	sets.push(
-		"updated_at = datetime('now')"
+		"updated_at = datetime('now', 'localtime')"
 	);
 
 	query += sets.join( ', ' )

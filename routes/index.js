@@ -13,4 +13,9 @@ router.get( '/', function( req, res, next ) {
 	});
 });
 
+// GET 404
+router.get( '/404', function( req, res, next ) {
+	res.rendr( '404' );
+});
+
 module.exports = router;

@@ -30,7 +30,7 @@ exports.add = function( user, next ) {
 	user.password = 'oi';
 
 	var query = 'INSERT INTO users (name, email, phone, is_admin, password, created_at, updated_at) ';
-	query += "VALUES ('" + user.name + "', '" + user.email + "', '" + user.phone + "', " + [].concat(user.is_admin)[ 0 ] + ", '" + user.password + "', datetime('now'), datetime('now'))";
+	query += "VALUES ('" + user.name + "', '" + user.email + "', '" + user.phone + "', " + [].concat(user.is_admin)[ 0 ] + ", '" + user.password + "', datetime('now', 'localtime'), datetime('now', 'localtime'))";
 
 	db.serialize(function() {
 		db.run( query, [], next );
@@ -84,7 +84,7 @@ exports.updateById = function( id, user, next ) {
 	}
 
 	sets.push(
-		"updated_at = datetime('now')"
+		"updated_at = datetime('now', 'localtime')"
 	);
 
 	query += sets.join( ', ' )

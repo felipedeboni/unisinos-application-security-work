@@ -1,24 +1,27 @@
 <div class="container">
-	<div class="row">
-		<div class="col-md-3">
-			<div class="panel panel-default">
-				<div class="panel-body">
-					<% if ( !!form.id ) { %>
-						<img src="/images/movies/<%= form.id %>.jpeg" alt="<%= form.name %>" />
-					<% } else { %>
-						<div class="text-center pt-xlg pb-xlg mt-xlg mb-xlg">
-							<i class="fa fa-file-image-o" style="font-size: 60px"></i>
-						</div>
-					<% } %>
+	<% if ( flash.hasMessage( session ) ) { %>
+		<%- flash.showMessage( session ) %>
+	<% } %>
+
+	<form id="<%= type %>-movies-form" action="/admin/<%= action %>" method="<%= method %>" class="form" enctype="multipart/form-data">
+		<div class="row">
+			<div class="col-md-3">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<% if ( !!form.id ) { %>
+							<img src="/images/movies/<%= form.id %>.jpeg" alt="<%= form.name %>" />
+						<% } else { %>
+							<div class="text-center pt-xlg pb-xlg mt-xlg mb-xlg">
+								<i class="fa fa-file-image-o" style="font-size: 60px"></i>
+							</div>
+						<% } %>
+					</div>
+				</div>
+				<div class="form-group">
+					<input type="file" name="cover" />
 				</div>
 			</div>
-			<div class="form-group">
-				<input type="file" name="cover" />
-			</div>
-		</div>
-		<div class="col-md-6 col-lg-offset-4 col-lg-4">
-			<form id="<%= type %>-movies-form" action="/admin/<%= action %>" method="<%= method %>" class="form" enctype="multipart/form-data">
-
+			<div class="col-md-6">
 				<div class="form-group">
 					<input id="name" name="name" type="text" placeholder="Name" class="form-control" value="<%- form.name %>" />
 				</div>
@@ -58,7 +61,7 @@
 					<a href="/admin/movies/" class="btn btn-default">Back to List</a>
 					<button class="btn btn-primary" type="submit">Submit</button>
 				</div>
-			</form>
+			</div>
 		</div>
-	</div>
+	</form>
 </div>

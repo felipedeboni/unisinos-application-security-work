@@ -8,6 +8,13 @@
 		<link rel="stylesheet" href="/css/bootstrap.min.css" />
 		<link rel="stylesheet" href="/css/font-awesome.css" />
 		<link rel="stylesheet" href="/css/custom.css" />
+		<script>
+			var currentUser = {};
+			<% if ( !!currentUser ) { %>
+				currentUser.id = <%= currentUser.id %>;
+				currentUser.name = '<%= currentUser.name %>';
+			<% } %>
+		</script>
 	</head>
 	<body>
 		<nav class="navbar navbar-inverse">

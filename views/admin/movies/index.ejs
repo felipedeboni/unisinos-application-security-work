@@ -4,6 +4,10 @@
 			<h1><%= title %></h1>
 		</div>
 
+		<% if ( flash.hasMessage( session ) ) { %>
+			<%- flash.showMessage( session ) %>
+		<% } %>
+
 		<div class="text-right mb-sm">
 			<a href="/admin/movies/new" class="btn btn-primary">Add Movie</a>
 		</div>

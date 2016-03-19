@@ -25,6 +25,7 @@ var site             = require( './routes/index' );
 var users            = require( './routes/users' );
 var search           = require( './routes/search' );
 var movies           = require( './routes/movies' );
+var comments         = require( './routes/comments' );
 var admin            = require( './routes/admin/index' );
 var adminUsers       = require( './routes/admin/users' );
 var adminMovies      = require( './routes/admin/movies' );
@@ -93,6 +94,7 @@ app.use( auth.restrictAdmin );
 // e o que deve ser feito nessas urls
 app.use( '/', site );
 app.use( '/', users );
+app.use( '/', comments );
 app.use( '/search', search );
 app.use( '/movies', movies );
 app.use( '/admin/', admin );
@@ -102,9 +104,7 @@ app.use( '/admin/genres', adminGenres );
 
 // caso a url nao exista, a gente trata o 404
 app.use(function( req, res, next ) {
-	var err = new Error( 'Not Found' );
-	err.status = 404;
-	next( err );
+	//res.rendr( '404' ); // só renderiza a view
 });
 
 // aqui o erro eh tratado de fato

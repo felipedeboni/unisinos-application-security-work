@@ -31,6 +31,15 @@ var genresTable = {
 	updated_at: 'datetime default current_timestamp'
 };
 
+var commentsTable = {
+	id: 'integer primary key',
+	comment: 'text',
+	movie_id: 'integer',
+	user_id: 'integer',
+	created_at: 'datetime default current_timestamp',
+	updated_at: 'datetime default current_timestamp'
+};
+
 function tableToSQL( tableName, tableDef ) {
 	var sql,
 		keys,
@@ -56,5 +65,6 @@ db.serialize(function() {
 	db.run( tableToSQL( 'users', usersTable ) );
 	db.run( tableToSQL( 'movies', moviesTable ) );
 	db.run( tableToSQL( 'genres', genresTable ) );
+	db.run( tableToSQL( 'comments', commentsTable ) );
 
 });

@@ -1,0 +1,18 @@
+<div class="container">
+	<div style="max-width: 500px; margin: 0 auto;">
+		<% if ( !currentUser ) { %>
+			<div class="alert alert-info" role="alert">
+				<i class="fa fa-info-circle"></i> Please <a href="/signin">sign in</a> to comment
+			</div>
+		<% } %>
+		<form action="/movies/<%- movie_id %>/comments/new" method="POST" data-comment-form="true">
+			<fieldset class="panel" <%- !currentUser ? 'disabled="disabled"' : '' %>>
+				<textarea name="comment" placeholder="Put your comment here..." class="form-control mb-sm" rows="5" style="resize:none;"></textarea>
+				<button class="btn btn-primary btn-block" type="submit">Comment</button>
+			</fieldset>
+		</form>
+
+		<div id="Comments" class="comments-container" data-movie-id="<%- movie_id %>">
+		</div>
+	</div>
+</div>
