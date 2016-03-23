@@ -34,7 +34,7 @@ router.post( '/movies/:id/comments/new', function( req, res, next ) {
 		res.json({
 			success: true,
 			comment: {
-				id: success.lastID,
+				id: this.lastID,
 				comment: comment.comment,
 				user_id: req.currentUser.id,
 				user_name: req.currentUser.name,

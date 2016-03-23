@@ -13,7 +13,7 @@ exports.findAll = function( options, next ) {
 	var query = 'SELECT comments.*, users.id as user_id, users.name as user_name FROM comments ';
 	query += "INNER JOIN users ON users.id = comments.user_id";
 
-	if ( options.WHERE ) {
+	if ( options.where ) {
 		query += ' WHERE ' + options.where;
 	}
 
