@@ -19,7 +19,7 @@ node db-create.js
 node db-seed.js
 ```
 
-Default user is ```admin@gmail.com``` and password is ```admin```
+Default user is ```admin@gmail.com``` and password is ```root```
 
 ### Development
 ```
