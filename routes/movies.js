@@ -38,8 +38,7 @@ function validateMovieExistance( req, res, next ) {
 		}
 
 		if ( !exists ) {
-			//return res.redirect( '/404' );
-			// TODO check this
+			return res.redirect( '/404' );
 		}
 
 		next();

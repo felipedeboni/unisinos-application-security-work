@@ -1,12 +1,14 @@
 var db = require( '../db' );
 
-exports.findById = findById = function( id, next ) {
+var findById = function( id, next ) {
 	db.serialize(function() {
 		db.get( "SELECT * FROM movies WHERE id = '" + id + "'", function( err, row ) {
 			next( err, row );
 		});
 	});
 };
+
+exports.findById = findById;
 
 exports.findAll = function( options, next ) {
 	options = options || {};
@@ -32,8 +34,8 @@ exports.findAll = function( options, next ) {
 };
 
 exports.add = function( movie, next ) {
-	var query = 'INSERT INTO movies (name, synopsis, release_date, genre_ids, created_at, updated_at) ';
-	query += "VALUES ('" + movie.name + "','" + movie.synopsis + "','" + movie.release_date + "','" + movie.genre_ids + "', datetime('now', 'localtime'), datetime('now', 'localtime'))";
+	var query = 'INSERT INTO movies (name, synopsis, release_date, genre_ids, rate, created_at, updated_at) ';
+	query += "VALUES ('" + movie.name + "','" + movie.synopsis + "','" + movie.release_date + "','" + movie.genre_ids + "','" + movie.rate + "', datetime('now', 'localtime'), datetime('now', 'localtime'))";
 
 	db.serialize(function() {
 		db.run( query, [], next );

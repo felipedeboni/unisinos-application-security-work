@@ -3,6 +3,7 @@
 var express = require( 'express' );
 var router = express.Router();
 var User = require( '../../models/user' );
+var flash = require( '../../lib/flash' );
 
 // GET /users/
 router.get( '/', function( req, res, next ) {
@@ -28,10 +29,12 @@ router.get( '/new', function( req, res, next ) {
 router.post( '/new', function( req, res, next ) {
 	User.add( req.body, function( err ) {
 		if ( err ) {
-			return res.status( 500 ).send();
+			flash.error( req, 'Unexpected error has occured.' );
+			return res.redirect( '/admin/users/new' );
 		}
 
-		res.redirect( '/admin/users/' + this.lastID + '/edit' );
+		flash.success( req, 'User created.' );
+		res.redirect( '/admin/users/' );
 	});
 });
 
@@ -55,10 +58,12 @@ router.post( '/:id/edit', [validateUserExistance, function( req, res, next ) {
 
 	User.updateById( req.params.id, data, function( err ) {
 		if (err) {
-			return res.status( 500 ).send();
+			flash.error( req, 'Unexpected error has occured.' );
+			return res.redirect( '/admin/users/' + req.params.id + '/edit' );
 		}
 
-		res.redirect( '/admin/users/' + req.params.id + '/edit' );
+		flash.success( req, 'User updated.' );
+		res.redirect( '/admin/users/' );
 	});
 }]);
 
@@ -68,10 +73,12 @@ router.get( '/:id/remove', [validateUserExistance, function( req, res, next ) {
 
 	User.removeById( req.params.id, function( err ) {
 		if (err) {
-			return res.status( 500 ).send();
+			flash.error( req, 'Unexpected error has occured.' );
+			return res.redirect( '/admin/users/' );
 		}
 
-		res.redirect( '/admin/users' );
+		flash.success( req, 'User removed.' );
+		res.redirect( '/admin/users/' );
 	});
 }])
 

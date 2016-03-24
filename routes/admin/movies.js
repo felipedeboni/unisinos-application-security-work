@@ -36,7 +36,8 @@ router.get( '/new', [getGenres, function( req, res, next ) {
 router.post( '/new', upload.single('cover'), function( req, res, next ) {
 	Movie.add( req.body, function( err ) {
 		if ( err ) {
-			return res.status( 500 ).send();
+			flash.error( req, 'Unexpected error has occured.' );
+			return res.redirect( '/admin/movies/new' );
 		}
 
 		if ( req.file ) {
@@ -95,8 +96,10 @@ router.get( '/:id/remove', [validateMovieExistance, function( req, res, next ) {
 	Movie.removeById( req.params.id, function( err ) {
 		if (err) {
 			flash.error( req, 'Unexpected error has occured.' );
+			return res.redirect( '/admin/movies/' );
 		}
 
+		flash.success( req, 'Genre removed.' );
 		res.redirect( '/admin/movies' );
 	});
 }])

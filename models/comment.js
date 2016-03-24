@@ -1,12 +1,14 @@
 var db = require( '../db' );
 
-exports.findById = findById = function( id, next ) {
+var findById = function( id, next ) {
 	db.serialize(function() {
 		db.get( "SELECT * FROM comments WHERE id = '" + id + "'", function( err, row ) {
 			next( err, row );
 		});
 	});
 };
+
+exports.findById = findById;
 
 exports.findAll = function( options, next ) {
 	options = options || {};

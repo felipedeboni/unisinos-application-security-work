@@ -3,6 +3,7 @@
 var express = require( 'express' );
 var router = express.Router();
 var Genre = require( '../../models/genre' );
+var flash = require( '../../lib/flash' );
 
 // GET /genres/
 router.get( '/', function( req, res, next ) {
@@ -29,10 +30,12 @@ router.get( '/new', function( req, res, next ) {
 router.post( '/new', function( req, res, next ) {
 	Genre.add( req.body, function( err ) {
 		if ( err ) {
-			return res.status( 500 ).send();
+			flash.error( req, 'Unexpected error has occured.' );
+			return res.redirect( '/admin/genres/new' );
 		}
 
-		res.redirect( '/admin/genres/' + this.lastID + '/edit' );
+		flash.success( req, 'Genre created.' );
+		res.redirect( '/admin/genres/' );
 	});
 });
 
@@ -56,10 +59,12 @@ router.post( '/:id/edit', [validateGenreExistance, function( req, res, next ) {
 
 	Genre.updateById( req.params.id, data, function( err ) {
 		if (err) {
-			return res.status( 500 ).send();
+			flash.error( req, 'Unexpected error has occured.' );
+			return res.redirect( '/admin/genres/' + req.params.id + '/edit' );
 		}
 
-		res.redirect( '/admin/genres/' + req.params.id + '/edit' );
+		flash.success( req, 'Genre updated.' );
+		res.redirect( '/admin/genres/' );
 	});
 }]);
 
@@ -69,9 +74,11 @@ router.get( '/:id/remove', [validateGenreExistance, function( req, res, next ) {
 
 	Genre.removeById( req.params.id, function( err ) {
 		if (err) {
-			return res.status( 500 ).send();
+			flash.error( req, 'Unexpected error has occured.' );
+			return res.redirect( '/admin/genres/' );
 		}
 
+		flash.success( req, 'Genre removed.' );
 		res.redirect( '/admin/genres' );
 	});
 }])
