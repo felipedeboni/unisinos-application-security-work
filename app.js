@@ -104,7 +104,7 @@ app.use( '/admin/genres', adminGenres );
 
 // caso a url nao exista, a gente trata o 404
 app.use(function( req, res, next ) {
-	//res.rendr( '404' ); // só renderiza a view
+	return res.redirect( '/404' ); // só renderiza a view
 });
 
 // aqui o erro eh tratado de fato

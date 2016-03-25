@@ -19,7 +19,7 @@ router.get( '/profile', function( req, res, next ) {
 
 	User.findById( req.session.user_id, function( err, user ) {
 		if (err) {
-			return res.status( 500 ).send();
+			return res.redirect( '/404' );
 		}
 
 		res.vm.user = user;
@@ -34,7 +34,8 @@ router.post( '/profile', function( req, res, next ) {
 
 	User.updateById( req.session.user_id, data, function( err ) {
 		if (err) {
-			return res.status( 500 ).send();
+			flash.error( req, 'Unexpected error has occured.' );
+			return res.redirect( '/profile' );
 		}
 
 		res.redirect( '/profile' );

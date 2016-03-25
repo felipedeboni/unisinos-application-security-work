@@ -39,7 +39,7 @@ router.post( '/new', function( req, res, next ) {
 });
 
 // GET /users/:id/edit
-router.get( '/:id/edit', [validateUserExistance, function( req, res, next ) {
+router.get( '/:id([0-9]+)/edit', [validateUserExistance, function( req, res, next ) {
 	User.findById( req.params.id, function( err, user ) {
 		if (err) {
 			return res.status( 500 ).send();
@@ -53,7 +53,7 @@ router.get( '/:id/edit', [validateUserExistance, function( req, res, next ) {
 }]);
 
 // POST /users/:id/edit
-router.post( '/:id/edit', [validateUserExistance, function( req, res, next ) {
+router.post( '/:id([0-9]+)/edit', [validateUserExistance, function( req, res, next ) {
 	var data = getFormData( req );
 
 	User.updateById( req.params.id, data, function( err ) {
@@ -68,7 +68,7 @@ router.post( '/:id/edit', [validateUserExistance, function( req, res, next ) {
 }]);
 
 // GET /users/:id/remove
-router.get( '/:id/remove', [validateUserExistance, function( req, res, next ) {
+router.get( '/:id([0-9]+)/remove', [validateUserExistance, function( req, res, next ) {
 	var data = getFormData( req );
 
 	User.removeById( req.params.id, function( err ) {

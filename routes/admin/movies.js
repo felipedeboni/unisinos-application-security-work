@@ -53,7 +53,7 @@ router.post( '/new', upload.single('cover'), function( req, res, next ) {
 });
 
 // GET /movies/:id/edit
-router.get( '/:id/edit', [validateMovieExistance, getGenres, function( req, res, next ) {
+router.get( '/:id([0-9]+)/edit', [validateMovieExistance, getGenres, function( req, res, next ) {
 	Movie.findById( req.params.id, function( err, movie ) {
 		if (err) {
 			flash.error( req, 'Unexpected error has occured.' );
@@ -67,7 +67,7 @@ router.get( '/:id/edit', [validateMovieExistance, getGenres, function( req, res,
 }]);
 
 // POST /movies/:id/edit
-router.post( '/:id/edit', [validateMovieExistance, getGenres, upload.single('cover'), function( req, res, next ) {
+router.post( '/:id([0-9]+)/edit', [validateMovieExistance, getGenres, upload.single('cover'), function( req, res, next ) {
 	var data = getFormData( req );
 
 	Movie.updateById( req.params.id, data, function( err ) {
@@ -90,7 +90,7 @@ router.post( '/:id/edit', [validateMovieExistance, getGenres, upload.single('cov
 }]);
 
 // GET /movies/:id/remove
-router.get( '/:id/remove', [validateMovieExistance, function( req, res, next ) {
+router.get( '/:id([0-9]+)/remove', [validateMovieExistance, function( req, res, next ) {
 	var data = getFormData( req );
 
 	Movie.removeById( req.params.id, function( err ) {

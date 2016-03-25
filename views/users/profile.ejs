@@ -1,10 +1,16 @@
 <%- include('../shared/html-head') %>
 
 	<div class="container">
-		<div class="well" style="max-width: 500px; margin: 0 auto;">
-			<h1 class="text-center mb-xlg mt-sm">My Profile</h1>
+		<div style="max-width: 500px; margin: 0 auto;">
+			<% if ( flash.hasMessage( session ) ) { %>
+				<%- flash.showMessage( session ) %>
+			<% } %>
 
-			<%- include( '_form', { type: 'new', action: '/profile', method: 'POST', form: user } ) %>
+			<div class="well">
+				<h1 class="text-center mb-xlg mt-sm">My Profile</h1>
+
+				<%- include( '_form', { type: 'new', action: '/profile', method: 'POST', form: user } ) %>
+			</div>
 		</div>
 	</div>
 

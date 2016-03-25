@@ -10,7 +10,7 @@ var Genre = require( '../models/genre' );
 
 
 // GET /movies/:id/
-router.get( '/:id', [validateMovieExistance, getGenres, function( req, res, next ) {
+router.get( '/:id([0-9]+)', [validateMovieExistance, getGenres, function( req, res, next ) {
 	Movie.findById( req.params.id, function( err, movie ) {
 		if (err) {
 			return res.redirect( '/404' );

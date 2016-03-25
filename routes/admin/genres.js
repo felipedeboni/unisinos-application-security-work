@@ -40,7 +40,7 @@ router.post( '/new', function( req, res, next ) {
 });
 
 // GET /genres/:id/edit
-router.get( '/:id/edit', [validateGenreExistance, function( req, res, next ) {
+router.get( '/:id(0-9+)/edit', [validateGenreExistance, function( req, res, next ) {
 	Genre.findById( req.params.id, function( err, genre ) {
 		if (err) {
 			return res.status( 500 ).send();
@@ -54,7 +54,7 @@ router.get( '/:id/edit', [validateGenreExistance, function( req, res, next ) {
 }]);
 
 // POST /genres/:id/edit
-router.post( '/:id/edit', [validateGenreExistance, function( req, res, next ) {
+router.post( '/:id(0-9+)/edit', [validateGenreExistance, function( req, res, next ) {
 	var data = getFormData( req );
 
 	Genre.updateById( req.params.id, data, function( err ) {
@@ -69,7 +69,7 @@ router.post( '/:id/edit', [validateGenreExistance, function( req, res, next ) {
 }]);
 
 // GET /genres/:id/remove
-router.get( '/:id/remove', [validateGenreExistance, function( req, res, next ) {
+router.get( '/:id([0-9]+)/remove', [validateGenreExistance, function( req, res, next ) {
 	var data = getFormData( req );
 
 	Genre.removeById( req.params.id, function( err ) {

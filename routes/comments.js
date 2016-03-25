@@ -5,7 +5,7 @@ var router = express.Router({ mergeParams: true });
 var Comment = require( '../models/comment' );
 
 // GET /comments/
-router.get( '/movies/:id/comments', function( req, res, next ) {
+router.get( '/movies/:id([0-9]+)/comments', function( req, res, next ) {
 	var query = {
 		where: 'movie_id = ' + req.params.id
 	};
@@ -20,7 +20,7 @@ router.get( '/movies/:id/comments', function( req, res, next ) {
 });
 
 // POST /comments/new
-router.post( '/movies/:id/comments/new', function( req, res, next ) {
+router.post( '/movies/:id([0-9]+)/comments/new', function( req, res, next ) {
 	var comment = {};
 	comment.comment = req.body.comment;
 	comment.user_id = req.session.user_id;

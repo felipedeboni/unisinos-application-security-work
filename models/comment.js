@@ -2,7 +2,7 @@ var db = require( '../db' );
 
 var findById = function( id, next ) {
 	db.serialize(function() {
-		db.get( "SELECT * FROM comments WHERE id = '" + id + "'", function( err, row ) {
+		db.get( "SELECT * FROM comments WHERE id = " + id, function( err, row ) {
 			next( err, row );
 		});
 	});
