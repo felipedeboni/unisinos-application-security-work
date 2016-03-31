@@ -2,7 +2,7 @@ var db = require( '../db' );
 
 var findById = function( id, next ) {
 	db.serialize(function() {
-		db.get( "SELECT * FROM genres WHERE id = '" + id + "'", function( err, row ) {
+		db.get( "SELECT * FROM genres WHERE id = $id", { $id: id }, function( err, row ) {
 			next( err, row );
 		});
 	});
@@ -35,10 +35,10 @@ exports.findAll = function( options, next ) {
 
 exports.add = function( genre, next ) {
 	var query = 'INSERT INTO genres (name, created_at, updated_at) ';
-	query += "VALUES ('" + genre.name + "', datetime('now', 'localtime'), datetime('now', 'localtime'))";
+	query += "VALUES ($name, datetime('now', 'localtime'), datetime('now', 'localtime'));";
 
 	db.serialize(function() {
-		db.run( query, [], next );
+		db.run( query, { $name: genre.name }, next );
 	});
 };
 
@@ -53,32 +53,29 @@ exports.existsById = function( id, next ) {
 };
 
 exports.updateById = function( id, genre, next ) {
-	var sets = [];
-	var query = 'UPDATE genres ';
-	query += "SET ";
+	var params = {};
+	var fields = [];
+	var query = 'UPDATE genres SET ';
 
-	if ( typeof genre.name !== 'undefined' ) {
-		sets.push(
-			"name = '" + genre.name + "'"
-		);
-	}
+	params.$id = id;
 
-	sets.push(
-		"updated_at = datetime('now', 'localtime')"
-	);
+	fields.push( "name = $name" );
+	params.$name = genre.name;
 
-	query += sets.join( ', ' )
-	query += " WHERE id = " + id;
+	fields.push( "updated_at = datetime('now', 'localtime')" );
+
+	query += fields.join( ', ' );
+	query += " WHERE id = $id;";
 
 	db.serialize(function() {
-		db.run( query, [], next );
+		db.run( query, params, next );
 	});
 };
 
 exports.removeById = function( id, next ) {
-	var query = 'DELETE FROM genres WHERE id = ' + id;
+	var query = 'DELETE FROM genres WHERE id = $id;';
 
 	db.serialize(function() {
-		db.run( query, [], next );
+		db.run( query, { $id: id }, next );
 	});
 };

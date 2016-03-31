@@ -13,7 +13,6 @@ var Genre = require( '../../models/genre' );
 
 // GET /movies/
 router.get( '/', function( req, res, next ) {
-	res.vm.title = 'Movies List';
 
 	Movie.findAll( {}, function( err, movies ) {
 		if (err) {
@@ -28,16 +27,16 @@ router.get( '/', function( req, res, next ) {
 
 // GET /movies/new
 router.get( '/new', [getGenres, function( req, res, next ) {
-	res.vm.title = 'New Movie';
 	res.rendr( 'admin/movies/new' );
 }]);
 
 // POST /movies/new
-router.post( '/new', upload.single('cover'), function( req, res, next ) {
+router.post( '/new', [getGenres, upload.single('cover'), function( req, res, next ) {
 	Movie.add( req.body, function( err ) {
 		if ( err ) {
 			flash.error( req, 'Unexpected error has occured.' );
-			return res.redirect( '/admin/movies/new' );
+			res.vm.movie = req.body;
+			return res.rendr( 'admin/movies/new' );
 		}
 
 		if ( req.file ) {
@@ -50,7 +49,7 @@ router.post( '/new', upload.single('cover'), function( req, res, next ) {
 		flash.success( req, 'Movie created.' );
 		res.redirect( '/admin/movies/' );
 	});
-});
+}]);
 
 // GET /movies/:id/edit
 router.get( '/:id([0-9]+)/edit', [validateMovieExistance, getGenres, function( req, res, next ) {
@@ -59,7 +58,6 @@ router.get( '/:id([0-9]+)/edit', [validateMovieExistance, getGenres, function( r
 			flash.error( req, 'Unexpected error has occured.' );
 		}
 
-		res.vm.title = 'Edit Movie';
 		res.vm.movie = movie;
 
 		res.rendr( 'admin/movies/edit' );

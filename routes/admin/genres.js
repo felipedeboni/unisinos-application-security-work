@@ -7,7 +7,6 @@ var flash = require( '../../lib/flash' );
 
 // GET /genres/
 router.get( '/', function( req, res, next ) {
-	res.vm.title = 'Genres List';
 
 	Genre.findAll({ orderBy: 'name ASC' }, function( err, genres ) {
 		if (err) {
@@ -22,7 +21,6 @@ router.get( '/', function( req, res, next ) {
 
 // GET /genres/new
 router.get( '/new', function( req, res, next ) {
-	res.vm.title = 'New Genre';
 	res.rendr( 'admin/genres/new' );
 });
 
@@ -40,13 +38,12 @@ router.post( '/new', function( req, res, next ) {
 });
 
 // GET /genres/:id/edit
-router.get( '/:id(0-9+)/edit', [validateGenreExistance, function( req, res, next ) {
+router.get( '/:id([0-9]+)/edit', [validateGenreExistance, function( req, res, next ) {
 	Genre.findById( req.params.id, function( err, genre ) {
 		if (err) {
 			return res.status( 500 ).send();
 		}
 
-		res.vm.title = 'Edit Genre';
 		res.vm.genre = genre;
 
 		res.rendr( 'admin/genres/edit' );
@@ -54,7 +51,7 @@ router.get( '/:id(0-9+)/edit', [validateGenreExistance, function( req, res, next
 }]);
 
 // POST /genres/:id/edit
-router.post( '/:id(0-9+)/edit', [validateGenreExistance, function( req, res, next ) {
+router.post( '/:id([0-9]+)/edit', [validateGenreExistance, function( req, res, next ) {
 	var data = getFormData( req );
 
 	Genre.updateById( req.params.id, data, function( err ) {

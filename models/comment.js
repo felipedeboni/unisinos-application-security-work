@@ -2,7 +2,7 @@ var db = require( '../db' );
 
 var findById = function( id, next ) {
 	db.serialize(function() {
-		db.get( "SELECT * FROM comments WHERE id = " + id, function( err, row ) {
+		db.get( "SELECT * FROM comments WHERE id = $id", { $id: id }, function( err, row ) {
 			next( err, row );
 		});
 	});
@@ -36,7 +36,13 @@ exports.findAll = function( options, next ) {
 
 exports.add = function( comment, next ) {
 	var query = 'INSERT INTO comments (comment, movie_id, user_id, created_at, updated_at) ';
-	query += "VALUES ('" + comment.comment + "','" + comment.movie_id + "','" + comment.user_id + "', datetime('now', 'localtime'), datetime('now', 'localtime'))";
+	query += "VALUES ($comment, $movie_id, $user_id, datetime('now', 'localtime'), datetime('now', 'localtime'))";
+
+	var params = {
+		$comment: comment.comment,
+		$movie_id: comment.movie_id,
+		$user_id: comment.user_id
+	};
 
 	db.serialize(function() {
 		db.run( query, [], next );
@@ -54,9 +60,9 @@ exports.existsById = function( id, next ) {
 };
 
 exports.removeById = function( id, next ) {
-	var query = 'DELETE FROM comments WHERE id = ' + id;
+	var query = 'DELETE FROM comments WHERE id = $id;';
 
 	db.serialize(function() {
-		db.run( query, [], next );
+		db.run( query, { $id: id }, next );
 	});
 };

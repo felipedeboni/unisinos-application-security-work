@@ -1,7 +1,7 @@
 <%- include('../../shared/html-head') %>
 	<div class="container">
 		<div class="page-header">
-			<h1><%= title %></h1>
+			<h1>Genres List</h1>
 		</div>
 
 		<% if ( flash.hasMessage( session ) ) { %>
@@ -24,8 +24,8 @@
 				<% if ( !!genres && genres.length > 0 ) { %>
 					<% for( var i in genres ) { %>
 						<tr>
-							<td><%- genres[ i ].id %></td>
-							<td><%- genres[ i ].name %></td>
+							<td><%= genres[ i ].id %></td>
+							<td><%= genres[ i ].name %></td>
 							<td>
 								<a href="/admin/genres/<%= genres[ i ].id %>/edit">Edit</a>
 								<a href="/admin/genres/<%= genres[ i ].id %>/remove">Remove</a>

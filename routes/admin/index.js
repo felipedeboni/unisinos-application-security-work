@@ -5,7 +5,6 @@ var router = express.Router();
 
 // admin home
 router.get( '/', function( req, res, next) {
-	res.vm.title = 'Admin';
 	res.rendr( 'admin/index' );
 });
 

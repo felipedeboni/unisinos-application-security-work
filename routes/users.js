@@ -8,7 +8,6 @@ var User = require( '../models/user' );
 
 // GET home
 router.get( '/', function( req, res, next ) {
-	res.vm.title = 'Home';
 	res.rendr( 'index' );
 });
 
@@ -75,6 +74,17 @@ router.get( '/signup', function( req, res, next ) {
 router.post( '/signup', function( req, res, next ) {
 	var data = req.body;
 	data.is_admin = [0];
+
+	var validation = utils.validateUser( data, true, true );
+
+	if ( !validation.isValid ) {
+		flash.error( req, validation.message );
+		delete data.password;
+		delete data.password_confirm;
+
+		res.vm.user = data;
+		return res.rendr( 'users/new' );
+	}
 
 	User.add( data, function( err ) {
 		if ( err ) {

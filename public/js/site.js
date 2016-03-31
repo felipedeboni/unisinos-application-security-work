@@ -27,6 +27,10 @@ $(function() {
 });
 
 $(function() {
+	if ( window.location.pathname.indexOf( '/movies' ) === -1 ) {
+		return false;
+	}
+
 	var $commentForm = $( '[data-comment-form="true"]' );
 	var $commentFieldset = $commentForm.find( 'fieldset' );
 	var $commentField = $commentForm.find( 'textarea' );
@@ -75,7 +79,7 @@ $(function() {
 			'</div>'
 		]
 		.join( '' )
-		.replace( '{{ comment }}', comment.comment )
+		.replace( '{{ comment }}', _escape(comment.comment) )
 		.replace( '{{ created_at }}', moment(comment.created_at).format( 'DD/MM/YYYY HH:MM:ss' ) )
 		.replace( '{{ username }}', comment.user_name )
 		.replace( '{{ btnremove }}', btn );

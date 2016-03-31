@@ -9,6 +9,8 @@
  * bem diferente de um apache ou iis
  * que já resolve tudo pra ti
  */
+global._escape       = require( 'escape-html' );
+global._utils        = require( './lib/utils' );
 var config           = require( './package.json' );
 var express          = require( 'express' );
 var path             = require( 'path' );
@@ -30,7 +32,6 @@ var admin            = require( './routes/admin/index' );
 var adminUsers       = require( './routes/admin/users' );
 var adminMovies      = require( './routes/admin/movies' );
 var adminGenres      = require( './routes/admin/genres' );
-
 
 var app = express();
 

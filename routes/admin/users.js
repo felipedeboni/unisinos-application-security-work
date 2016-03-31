@@ -12,7 +12,6 @@ router.get( '/', function( req, res, next ) {
 			return res.status( 500 ).send();
 		}
 
-		res.vm.title = 'Users List';
 		res.vm.users = users;
 
 		res.rendr( 'admin/users/index' );
@@ -21,7 +20,6 @@ router.get( '/', function( req, res, next ) {
 
 // GET /users/new
 router.get( '/new', function( req, res, next ) {
-	res.vm.title = 'New User';
 	res.rendr( 'admin/users/new' );
 });
 
@@ -45,7 +43,6 @@ router.get( '/:id([0-9]+)/edit', [validateUserExistance, function( req, res, nex
 			return res.status( 500 ).send();
 		}
 
-		res.vm.title = 'Edit User';
 		res.vm.user = user;
 
 		res.rendr( 'admin/users/edit' );

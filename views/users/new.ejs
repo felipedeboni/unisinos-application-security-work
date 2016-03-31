@@ -4,7 +4,7 @@
 		<div class="well" style="max-width: 500px; margin: 0 auto;">
 			<h1 class="text-center mb-xlg mt-sm">Sign Up</h1>
 
-			<%- include( '_form', { type: 'new', action: '/signup', method: 'POST', form: {} } ) %>
+			<%- include( '_form', { type: 'new', action: '/signup', method: 'POST', form: ( typeof user !== 'undefined' ? user : {} ) } ) %>
 		</div>
 	</div>
 

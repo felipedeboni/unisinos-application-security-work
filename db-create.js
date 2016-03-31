@@ -9,6 +9,7 @@ var usersTable = {
 	phone: 'text',
 	is_admin: 'integer',
 	password: 'text',
+	salt: 'text',
 	created_at: 'datetime default current_timestamp',
 	updated_at: 'datetime default current_timestamp'
 };

@@ -1,7 +1,7 @@
 <%- include('../../shared/html-head') %>
 	<div class="container">
 		<div class="page-header">
-			<h1><%= title %></h1>
+			<h1>Movies List</h1>
 		</div>
 
 		<% if ( flash.hasMessage( session ) ) { %>
@@ -24,8 +24,8 @@
 				<% if ( !!movies && movies.length > 0 ) { %>
 					<% for( var i in movies ) { %>
 						<tr>
-							<td><%- movies[ i ].name %></td>
-							<td><%- moment( movies[ i ].release_date ).format( 'DD/MM/YYYY' ) %></td>
+							<td><%= movies[ i ].name %></td>
+							<td><%= moment( movies[ i ].release_date ).format( 'DD/MM/YYYY' ) %></td>
 							<td>
 								<a href="/admin/movies/<%= movies[ i ].id %>/edit">Edit</a>
 								<% if ( true ) { %>
@@ -36,7 +36,7 @@
 					<% } %>
 				<% } else { %>
 				<tr>
-					<td>
+					<td colspan="3">
 						<p class="pb-xlg pt-xlg text-muted text-center mb-none">No movies found</p>
 					</td>
 				</tr>

@@ -2,7 +2,7 @@ var db = require( '../db' );
 
 var findById = function( id, next ) {
 	db.serialize(function() {
-		db.get( "SELECT * FROM movies WHERE id = '" + id + "'", function( err, row ) {
+		db.get( "SELECT * FROM movies WHERE id = $id", { $id: id }, function( err, row ) {
 			next( err, row );
 		});
 	});
@@ -35,10 +35,18 @@ exports.findAll = function( options, next ) {
 
 exports.add = function( movie, next ) {
 	var query = 'INSERT INTO movies (name, synopsis, release_date, genre_ids, rate, created_at, updated_at) ';
-	query += "VALUES ('" + movie.name + "','" + movie.synopsis + "','" + movie.release_date + "','" + movie.genre_ids + "','" + movie.rate + "', datetime('now', 'localtime'), datetime('now', 'localtime'))";
+	query += "VALUES ($name, $synopsis, $release_date, $genre_ids, $rate, datetime('now', 'localtime'), datetime('now', 'localtime'));";
+
+	var params = {
+		$name: movie.name,
+		$synopsis: movie.synopsis,
+		$release_date: movie.release_date,
+		$genre_ids: [].concat(movie.genre_ids).join(','),
+		$rate: movie.rate
+	};
 
 	db.serialize(function() {
-		db.run( query, [], next );
+		db.run( query, params, next );
 	});
 };
 
@@ -53,57 +61,57 @@ exports.existsById = function( id, next ) {
 };
 
 exports.updateById = function( id, movie, next ) {
-	var sets = [];
-	var query = 'UPDATE movies ';
-	query += "SET ";
+	var params = {};
+	var fields = [];
+	var query = 'UPDATE movies SET ';
+
+	params.$id = id;
 
 	if ( typeof movie.name !== 'undefined' ) {
-		sets.push(
-			"name = '" + movie.name + "'"
-		);
+		fields.push( "name = $name" );
+		params.$name = movie.name;
+
 	}
 
 	if ( typeof movie.synopsis !== 'undefined' ) {
-		sets.push(
-			"synopsis = '" + movie.synopsis + "'"
-		);
+		fields.push( "synopsis = $synopsis" );
+		params.$synopsis = movie.synopsis;
+
 	}
 
 	if ( typeof movie.rate !== 'undefined' ) {
-		sets.push(
-			"rate = '" + movie.rate + "'"
-		);
+		fields.push( "rate = $rate" );
+		params.$rate = movie.rate;
+
 	}
 
 
 	if ( typeof movie.genre_ids !== 'undefined' ) {
-		sets.push(
-			"genre_ids = '" + movie.genre_ids + "'"
-		);
+		fields.push( "genre_ids = $genre_ids" );
+		params.$genre_ids = [].concat(movie.genre_ids).join(',');
+
 	}
 
 	if ( typeof movie.release_date !== 'undefined' ) {
-		sets.push(
-			"release_date = '" + movie.release_date + "'"
-		);
+		fields.push( "release_date = $release_date" );
+		params.$release_date = movie.release_date;
+
 	}
 
-	sets.push(
-		"updated_at = datetime('now', 'localtime')"
-	);
+	fields.push( "updated_at = datetime('now', 'localtime')" );
 
-	query += sets.join( ', ' )
-	query += " WHERE id = " + id;
+	query += fields.join( ', ' );
+	query += " WHERE id = $id;";
 
 	db.serialize(function() {
-		db.run( query, [], next );
+		db.run( query, params, next );
 	});
 };
 
 exports.removeById = function( id, next ) {
-	var query = 'DELETE FROM movies WHERE id = ' + id;
+	var query = 'DELETE FROM movies WHERE id = $id;';
 
 	db.serialize(function() {
-		db.run( query, [], next );
+		db.run( query, { $id: id }, next );
 	});
 };

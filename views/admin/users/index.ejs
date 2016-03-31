@@ -1,7 +1,7 @@
 <%- include('../../shared/html-head') %>
 	<div class="container">
 		<div class="page-header">
-			<h1><%= title %></h1>
+			<h1>Users List</h1>
 		</div>
 
 		<% if ( flash.hasMessage( session ) ) { %>
@@ -17,9 +17,9 @@
 				<% if ( !!users && users.length > 0 ) { %>
 					<% for( var i in users ) { %>
 						<tr>
-							<td><%- users[ i ].name %></td>
-							<td><%- users[ i ].email %></td>
-							<td><%- users[ i ].phone %></td>
+							<td><%= users[ i ].name %></td>
+							<td><%= users[ i ].email %></td>
+							<td><%= users[ i ].phone %></td>
 							<td>
 								<a href="/admin/users/<%= users[ i ].id %>/edit">Edit</a>
 								<% if ( currentUser.id != users[ i ].id ) { %>
