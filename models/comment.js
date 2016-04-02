@@ -28,7 +28,7 @@ exports.findAll = function( options, next ) {
 	}
 
 	db.serialize(function() {
-		db.all( query, function( err, row ) {
+		db.all( query, options.params || {}, function( err, row ) {
 			next( err, row );
 		});
 	});

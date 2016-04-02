@@ -27,7 +27,7 @@ $(function() {
 });
 
 $(function() {
-	if ( window.location.pathname.indexOf( '/movies' ) === -1 ) {
+	if ( window.location.pathname.indexOf( '/movies' ) !== 0 ) {
 		return false;
 	}
 

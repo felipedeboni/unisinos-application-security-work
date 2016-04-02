@@ -7,7 +7,10 @@ var Comment = require( '../models/comment' );
 // GET /comments/
 router.get( '/movies/:id([0-9]+)/comments', function( req, res, next ) {
 	var query = {
-		where: 'movie_id = ' + req.params.id
+		where: 'movie_id = $movie_id',
+		params: {
+			$movie_id: req.params.id
+		}
 	};
 
 	Comment.findAll( query, function( err, comments ) {
