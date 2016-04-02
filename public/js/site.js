@@ -79,7 +79,7 @@ $(function() {
 			'</div>'
 		]
 		.join( '' )
-		.replace( '{{ comment }}', _escape(comment.comment) )
+		.replace( '{{ comment }}', comment.comment )
 		.replace( '{{ created_at }}', moment(comment.created_at).format( 'DD/MM/YYYY HH:MM:ss' ) )
 		.replace( '{{ username }}', comment.user_name )
 		.replace( '{{ btnremove }}', btn );

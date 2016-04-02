@@ -15,6 +15,11 @@ router.get( '/movies/:id([0-9]+)/comments', function( req, res, next ) {
 			return res.status( 500 ).send();
 		}
 
+		comments = comments.map(function( item, index ) {
+			item.comment = _utils.nl2brEscape(item.comment);
+			return item;
+		});
+
 		return res.json( comments );
 	});
 });
@@ -35,7 +40,7 @@ router.post( '/movies/:id([0-9]+)/comments/new', function( req, res, next ) {
 			success: true,
 			comment: {
 				id: this.lastID,
-				comment: comment.comment,
+				comment: _utils.nl2brEscape(comment.comment),
 				user_id: req.currentUser.id,
 				user_name: req.currentUser.name,
 				movie_id: comment.movie_id

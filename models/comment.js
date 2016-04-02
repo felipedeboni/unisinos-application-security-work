@@ -45,7 +45,7 @@ exports.add = function( comment, next ) {
 	};
 
 	db.serialize(function() {
-		db.run( query, [], next );
+		db.run( query, params, next );
 	});
 };
 

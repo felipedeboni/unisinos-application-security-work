@@ -49,7 +49,7 @@
 							<% var genre = genres[ i ]; %>
 							<div class="checkbox col-md-6 mt-none">
 								<label>
-									<input name="genre_ids" type="checkbox" value="<%= genre.id %>" <%= movieGenres.indexOf( genre.id.toString() ) > - 1 ? "checked=\"checked\"" : "" %>  />
+									<input name="genre_ids" type="checkbox" value="<%= genre.id %>" <%- movieGenres.indexOf( genre.id.toString() ) > - 1 ? "checked=\"checked\"" : "" %>  />
 									<%= genre.name %>
 								</label>
 							</div>
